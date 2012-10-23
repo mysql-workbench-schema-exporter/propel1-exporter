@@ -4,6 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
+ * Copyright (c) 2012 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +25,35 @@
  * THE SOFTWARE.
  */
 
-namespace MwbExporter\Formatter\Propel1\Xml;
+namespace MwbExporter\Formatter\Propel1\Xml\Model;
 
-use MwbExporter\Formatter\Propel1\DatatypeConverter as BaseDatatypeConverter;
+use MwbExporter\Model\Schema as BaseSchema;
+use MwbExporter\Writer\WriterInterface;
+use MwbExporter\Formatter\Propel1\Xml\Formatter;
 
-class DatatypeConverter extends BaseDatatypeConverter
+class Schema extends BaseSchema
 {
+    /**
+     * (non-PHPdoc)
+     * @see MwbExporter\Model.Schema::write()
+     */
+    public function write(WriterInterface $writer)
+    {
+        $fmt = $this->getDocument()->getConfig()->get(Formatter::CFG_FILENAME);
+        if (false === strpos($fmt, '%s')) {
+            $fmt = '%s.'.$fmt;
+        }
+        $writer
+            ->open(sprintf($fmt, $this->getName()))
+            ->write('<?xml version="1.0" encoding="UTF-8"?>')
+            ->write('<database name="%s" defaultIdMethod="native">', $this->getName())
+            ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
+                $_this->writeSchema($writer);
+            })
+            ->write('</database>')
+            ->close()
+        ;
+
+        return $this;
+    }
 }
