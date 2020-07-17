@@ -28,11 +28,19 @@
 	"require" : {
 		"php" : ">=5.4.0",
 		"symfony/yaml" : "^3.0",
-		"mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": "^3.0 || dev-master"
+		"mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": "dev-master"
 	},
 	"autoload" : {
 		"psr-4" : {
-			"MwbExporter\\Formatter\\Propel1\\" : "lib/MwbExporter/Formatter/Propel1/"
+			"MwbExporter\\Formatter\\Propel1\\" : "lib/"
+		}
+	},
+	"extra": {
+		"mysql-workbench-schema-exporter" : {
+			"formatters" : {
+				"propel1-xml" : "MwbExporter\\Formatter\\Propel1\\Xml\\Formatter",
+				"propel1-yaml" : "MwbExporter\\Formatter\\Propel1\\Yaml\\Formatter"
+			}
 		}
 	}
 }
