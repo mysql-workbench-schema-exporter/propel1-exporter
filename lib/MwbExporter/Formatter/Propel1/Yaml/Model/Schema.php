@@ -45,10 +45,14 @@ class Schema extends BaseSchema
     {
         $data = $this->asYAML();
         $indent = $this->getConfig()->get(Formatter::CFG_INDENTATION);
+        $size = $this->getInlineSize($data, 0, $indent) + 3;
+        if (($maxSize = $this->getConfig()->get(Formatter::CFG_VALUE_INDENT_MAX)) > 0) {
+            $size = min($size, $maxSize);
+        }
         $yaml = new YAML($data, array(
             'indent' => $indent,
             'inline' => true,
-            'inline_size' => $this->getInlineSize($data, 0, $indent),
+            'inline_size' => $size,
         ));
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
@@ -70,10 +74,15 @@ class Schema extends BaseSchema
     public function asYAML()
     {
         $data = array(
-            'connection'      => 'propel',
+            'connection'      => $this->getConfig()->get(Formatter::CFG_CONNECTION),
             'defaultIdMethod' => 'native',
-            'package'         => $this->getConfig()->get(Formatter::CFG_PACKAGE)
         );
+        if ($namespace = trim($this->getConfig()->get(Formatter::CFG_NAMESPACE))) {
+            $data['namespace'] = $namespace;
+        }
+        if ($package = trim($this->getConfig()->get(Formatter::CFG_PACKAGE))) {
+            $data['package'] = $package;
+        }
         $classes = array();
         foreach ($this->getTables() as $table) {
             if ($table->isExternal()) {

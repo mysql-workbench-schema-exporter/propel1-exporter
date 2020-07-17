@@ -32,9 +32,13 @@ use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
 {
+    const CFG_CONNECTION              = 'connection';
+    const CFG_NAMESPACE               = 'namespace';
     const CFG_PACKAGE                 = 'package';
+    const CFG_VALUE_INDENT_MAX        = 'valueIndentationMax';
     const CFG_GENERATE_SIMPLE_COLUMN  = 'generateSimpleColumn';
     const CFG_VALIDATE_FK_PHP_NAME    = 'validateFkPhpName';
+    const CFG_FK_PHP_NAME_FROM_MODEL  = 'fkPhpNameFromModel';
 
     protected function init()
     {
@@ -42,9 +46,13 @@ class Formatter extends BaseFormatter
         $this->addConfigurations(array(
             static::CFG_INDENTATION             => 2,
             static::CFG_FILENAME                => '%schema%.schema.%extension%',
-            static::CFG_PACKAGE                 => 'lib.model',
+            static::CFG_CONNECTION              => 'default',
+            static::CFG_NAMESPACE               => '',
+            static::CFG_PACKAGE                 => '',
+            static::CFG_VALUE_INDENT_MAX        => 0,
             static::CFG_GENERATE_SIMPLE_COLUMN  => false,
             static::CFG_VALIDATE_FK_PHP_NAME    => true,
+            static::CFG_FK_PHP_NAME_FROM_MODEL  => true,
         ));
     }
 

@@ -38,6 +38,9 @@ class Table extends BaseTable
         $data = array(
             'tableName' => $this->getRawTableName(),
         );
+        if ($namespace = trim($this->parseComment('namespace'))) {
+            $data['namespace'] = $namespace;
+        }
         if ($package = $this->parseComment('package')) {
             $basePackage = $this->getConfig()->get(Formatter::CFG_PACKAGE);
             $data['package'] = ($basePackage ? $basePackage.'.' : '').$package;

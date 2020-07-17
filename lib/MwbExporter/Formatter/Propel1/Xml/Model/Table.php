@@ -35,11 +35,13 @@ class Table extends BaseTable
     public function writeTable(WriterInterface $writer)
     {
         if (!$this->isExternal()) {
-            $namespace = $this->getConfig()->get(Formatter::CFG_NAMESPACE);
-
             $writer
                 ->indent()
-                    ->write('<table name="%s" phpName="%s" namespace="%s">', $this->getRawTableName(), $this->getModelName(), $namespace)
+                    ->write('<table name="%s" phpName="%s"%s>',
+                        $this->getRawTableName(),
+                        $this->getModelName(),
+                        ($namespace = trim($this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
+                    )
                     ->indent()
                         ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
                             if ($_this->getConfig()->get(Formatter::CFG_ADD_VENDOR)) {

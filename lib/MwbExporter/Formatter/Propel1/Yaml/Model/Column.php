@@ -38,6 +38,21 @@ class Column extends BaseColumn
      * @var array
      */
     protected $simpleColumns = array('created_at', 'updated_at');
+    
+    protected function getForeignTableCount($table)
+    {
+        $count = 0;
+        foreach ($this->getTable()->getForeignKeys() as $foreign) {
+            if (count($foreign->getLocals()) > 1) {
+                continue;
+            }
+            if ($foreign->getReferencedTable()->getModelName() == $table) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 
     public function asYAML()
     {
@@ -50,7 +65,9 @@ class Column extends BaseColumn
             switch ($type) {
                 case 'decimal':
                     $attributes['size'] = $this->parameters->get('precision');
-                    $attributes['scale'] = $this->parameters->get('scale');
+                    if (null !== $this->parameters->get('scale')) {
+                        $attributes['scale'] = $this->parameters->get('scale');
+                    }
                     break;
     
                 case 'enum':
@@ -87,9 +104,16 @@ class Column extends BaseColumn
                 // validate foreign referenced table name for name conflict with
                 // table columns
                 if ($this->getConfig()->get(Formatter::CFG_VALIDATE_FK_PHP_NAME)) {
+                    $foreignTableName = $foreign->getReferencedTable()->getModelName();
+                    $foreignCount = $this->getForeignTableCount($foreignTableName);
                     $columns = array_map('strtolower', $this->getTable()->getColumns()->getColumnNames());
-                    if (in_array(strtolower($foreign->getReferencedTable()->getRawTableName()), $columns)) {
-                        $attributes['fkPhpName'] = $foreign->getReferencedTable()->getModelName().'FK';
+                    if ($foreignCount > 1 || in_array(strtolower($foreign->getReferencedTable()->getRawTableName()), $columns)) {
+                        if ($foreignCount == 1 && !$this->getConfig()->get(Formatter::CFG_FK_PHP_NAME_FROM_MODEL)) {
+                            $foreignTableName .= 'FK';
+                        } else {
+                            $foreignTableName .= $this->getTable()->formatRelatedName($this->getColumnName());
+                        }
+                        $attributes['fkPhpName'] = $foreignTableName;
                     }
                 }
             }

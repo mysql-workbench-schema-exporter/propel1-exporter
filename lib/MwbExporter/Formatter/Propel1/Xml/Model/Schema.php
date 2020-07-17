@@ -50,7 +50,10 @@ class Schema extends BaseSchema
                     ;
                 }
             })
-            ->write('<database name="%s" defaultIdMethod="native">', $this->getName())
+            ->write('<database name="%s" defaultIdMethod="native"%s>',
+                $this->getName(),
+                ($namespace = $this->getConfig()->get(Formatter::CFG_NAMESPACE)) ? sprintf(' namespace="%s"', $namespace) : ''
+            )
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
                 $_this->writeSchema($writer);
             })
