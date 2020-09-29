@@ -111,7 +111,7 @@ class Column extends BaseColumn
                         if ($foreignCount == 1 && !$this->getConfig()->get(Formatter::CFG_FK_PHP_NAME_FROM_MODEL)) {
                             $foreignTableName .= 'FK';
                         } else {
-                            $foreignTableName .= $this->getTable()->formatRelatedName($this->getColumnName());
+                            $foreignTableName .= $this->getNaming($this->getTable()->formatRelatedName($this->getColumnName()));
                         }
                         $attributes['fkPhpName'] = $foreignTableName;
                     }
