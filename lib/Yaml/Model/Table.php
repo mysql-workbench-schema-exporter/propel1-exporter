@@ -35,20 +35,20 @@ class Table extends BaseTable
 {
     public function asYAML()
     {
-        $data = array(
+        $data = [
             'tableName' => $this->getRawTableName(),
-        );
-        if ($namespace = trim($this->parseComment('namespace'))) {
+        ];
+        if ($namespace = trim((string) $this->parseComment('namespace'))) {
             $data['namespace'] = $namespace;
         }
         if ($package = $this->parseComment('package')) {
             $basePackage = $this->getConfig()->get(Formatter::CFG_PACKAGE);
             $data['package'] = ($basePackage ? $basePackage.'.' : '').$package;
         }
-        if ('true' == trim($this->parseComment('allowPkInsert'))) {
+        if ('true' == trim((string) $this->parseComment('allowPkInsert'))) {
             $data['allowPkInsert'] = true;
         }
-        $columns = array();
+        $columns = [];
         foreach ($this->getColumns() as $column) {
             if (!count($attributes = $column->asYAML())) {
                 continue;
@@ -58,7 +58,7 @@ class Table extends BaseTable
         if (count($columns)) {
             $data['columns'] = $columns;
         }
-        $indexes = array();
+        $indexes = [];
         foreach ($this->getIndices() as $index) {
             if (!$index->isIndex()) {
                 continue;
@@ -71,7 +71,7 @@ class Table extends BaseTable
         if (count($indexes)) {
             $data['indexes'] = $indexes;
         }
-        $uniques = array();
+        $uniques = [];
         foreach ($this->getIndices() as $index) {
             if (!$index->isUnique()) {
                 continue;
@@ -84,33 +84,33 @@ class Table extends BaseTable
         if (count($uniques)) {
             $data['uniques'] = $uniques;
         }
-        $foreignKeys = array();
+        $foreignKeys = [];
         foreach ($this->foreignKeys as $foreign) {
             if (count($locals = $foreign->getLocals()) == 1) {
                 continue;
             }
-            $attributes = array('foreignTable' => $foreign->getReferencedTable()->getRawTableName());
+            $attributes = ['foreignTable' => $foreign->getReferencedTable()->getRawTableName()];
             if (($action = strtolower($foreign->getParameters()->get('updateRule'))) !== 'no action') {
                 $attributes['onUpdate'] = $action;
             }
             if (($action = strtolower($foreign->getParameters()->get('deleteRule'))) !== 'no action') {
                 $attributes['onDelete'] = $action;
             }
-            $references = array();
+            $references = [];
             $foreigns = $foreign->getForeigns();
             for ($i = 0; $i < count($locals); $i++) {
                 $lcol = $locals[$i];
                 $fcol = $foreigns[$i];
-                $references[] = array('local' => $lcol->getColumnName(), 'foreign' => $fcol->getColumnName());
+                $references[] = ['local' => $lcol->getColumnName(), 'foreign' => $fcol->getColumnName()];
             }
             $attributes['references'] = $references;
-            $foreignKeys = array_merge($foreignKeys, array($foreign->getParameters()->get('name') => $attributes));
+            $foreignKeys = array_merge($foreignKeys, [$foreign->getParameters()->get('name') => $attributes]);
         }
         if (count($foreignKeys)) {
             $data['foreignKeys'] = $foreignKeys;
         }
-        foreach (array('propel_behaviors', 'behaviors') as $key) {
-            if ($behavior = trim($this->parseComment($key))) {
+        foreach (['propel_behaviors', 'behaviors'] as $key) {
+            if ($behavior = trim((string) $this->parseComment($key))) {
                 try {
                     $behavior = Yaml::parse($behavior);
                     $data[$key] = $behavior;
@@ -120,6 +120,6 @@ class Table extends BaseTable
             }
         }
 
-        return array($this->getModelName() => $data);
+        return [$this->getModelName() => $data];
     }
 }

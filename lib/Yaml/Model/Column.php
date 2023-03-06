@@ -37,7 +37,7 @@ class Column extends BaseColumn
      *
      * @var array
      */
-    protected $simpleColumns = array('created_at', 'updated_at');
+    protected $simpleColumns = ['created_at', 'updated_at'];
     
     protected function getForeignTableCount($table)
     {
@@ -59,7 +59,7 @@ class Column extends BaseColumn
         if ($this->getConfig()->get(Formatter::CFG_GENERATE_SIMPLE_COLUMN) && in_array($this->getColumnName(), $this->simpleColumns)) {
             $attributes = null;
         } else {
-            $attributes = array();
+            $attributes = [];
             $type = strtolower($this->getFormatter()->getDatatypeConverter()->getType($this));
             $attributes['type'] = $type;
             switch ($type) {
@@ -85,7 +85,7 @@ class Column extends BaseColumn
             if ($this->isAutoIncrement()) {
                 $attributes['autoIncrement'] = true;
             }
-            if (($defaultValue = $this->getDefaultValue()) && !in_array($defaultValue, array('CURRENT_TIMESTAMP'))) {
+            if (($defaultValue = $this->getDefaultValue()) && !in_array($defaultValue, ['CURRENT_TIMESTAMP'])) {
                 $attributes['defaultExpr'] = $defaultValue;
             }
             // simple foreign key
@@ -123,6 +123,6 @@ class Column extends BaseColumn
             }
         }
 
-        return array($this->getColumnName() => $attributes);
+        return [$this->getColumnName() => $attributes];
     }
 }

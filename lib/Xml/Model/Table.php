@@ -40,7 +40,7 @@ class Table extends BaseTable
                     ->write('<table name="%s" phpName="%s"%s>',
                         $this->getRawTableName(),
                         $this->getModelName(),
-                        ($namespace = trim($this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
+                        ($namespace = trim((string) $this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
                     )
                     ->indent()
                         ->writeCallback(function(WriterInterface $writer, Table $_this = null) {

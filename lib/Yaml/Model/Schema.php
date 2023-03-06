@@ -35,7 +35,7 @@ use MwbExporter\Helper\Comment;
 
 class Schema extends BaseSchema
 {
-    protected $inline_keys = array('columns', 'indexes', 'uniques', 'foreignKeys');
+    protected $inline_keys = ['columns', 'indexes', 'uniques', 'foreignKeys'];
 
     /**
      * (non-PHPdoc)
@@ -49,11 +49,11 @@ class Schema extends BaseSchema
         if (($maxSize = $this->getConfig()->get(Formatter::CFG_VALUE_INDENT_MAX)) > 0) {
             $size = min($size, $maxSize);
         }
-        $yaml = new YAML($data, array(
+        $yaml = new YAML($data, [
             'indent' => $indent,
             'inline' => true,
             'inline_size' => $size,
-        ));
+        ]);
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
@@ -73,17 +73,17 @@ class Schema extends BaseSchema
 
     public function asYAML()
     {
-        $data = array(
+        $data = [
             'connection'      => $this->getConfig()->get(Formatter::CFG_CONNECTION),
             'defaultIdMethod' => 'native',
-        );
+        ];
         if ($namespace = trim($this->getConfig()->get(Formatter::CFG_NAMESPACE))) {
             $data['namespace'] = $namespace;
         }
         if ($package = trim($this->getConfig()->get(Formatter::CFG_PACKAGE))) {
             $data['package'] = $package;
         }
-        $classes = array();
+        $classes = [];
         foreach ($this->getTables() as $table) {
             if ($table->isExternal()) {
                 continue;
@@ -115,9 +115,9 @@ class Schema extends BaseSchema
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 if (in_array($k, $this->inline_keys) && is_array($v)) {
-                    $size = max(array($size, $isz + $indent + $this->getMaxKeysLength($v)));
+                    $size = max([$size, $isz + $indent + $this->getMaxKeysLength($v)]);
                 } else {
-                    $size = max(array($size, $this->getInlineSize($v, $level + 1, $indent)));
+                    $size = max([$size, $this->getInlineSize($v, $level + 1, $indent)]);
                 }
             }
         }
@@ -136,7 +136,7 @@ class Schema extends BaseSchema
         $len = 0;
         foreach ($array as $k => $v) {
             if (is_string($k)) {
-                $len = max(array($len, strlen($k)));
+                $len = max([$len, strlen($k)]);
             }
         }
 
