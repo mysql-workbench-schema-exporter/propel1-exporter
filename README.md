@@ -1,10 +1,15 @@
 # README
 
+![Build Status](https://github.com/mysql-workbench-schema-exporter/propel1-exporter/actions/workflows/continuous-integration.yml/badge.svg)
+[![Latest Stable Version](https://poser.pugx.org/mysql-workbench-schema-exporter/propel1-exporter/v/stable.svg)](https://packagist.org/packages/mysql-workbench-schema-exporter/propel1-exporter)
+[![Total Downloads](https://poser.pugx.org/mysql-workbench-schema-exporter/propel1-exporter/downloads.svg)](https://packagist.org/packages/mysql-workbench-schema-exporter/propel1-exporter) 
+[![License](https://poser.pugx.org/mysql-workbench-schema-exporter/propel1-exporter/license.svg)](https://packagist.org/packages/mysql-workbench-schema-exporter/propel1-exporter)
+
 This is an exporter to convert [MySQL Workbench](http://www.mysql.com/products/workbench/) Models (\*.mwb) to Propel 1 YAML and XML Schema.
 
 ## Prerequisites
 
-  * PHP 5.4+
+  * PHP 7.2+
   * Composer to install the dependencies
 
 ## Installation

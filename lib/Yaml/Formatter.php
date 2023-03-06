@@ -43,7 +43,7 @@ class Formatter extends BaseFormatter
     protected function init()
     {
         parent::init();
-        $this->addConfigurations(array(
+        $this->addConfigurations([
             static::CFG_INDENTATION             => 2,
             static::CFG_FILENAME                => '%schema%.schema.%extension%',
             static::CFG_CONNECTION              => 'default',
@@ -54,7 +54,7 @@ class Formatter extends BaseFormatter
             static::CFG_VALIDATE_FK_PHP_NAME    => true,
             static::CFG_FK_PHP_NAME_FROM_MODEL  => true,
             static::CFG_NAMING_STRATEGY         => static::NAMING_PASCAL_CASE,
-        ));
+        ]);
     }
 
     /**

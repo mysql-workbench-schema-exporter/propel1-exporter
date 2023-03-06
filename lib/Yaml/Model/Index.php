@@ -27,12 +27,11 @@
 namespace MwbExporter\Formatter\Propel1\Yaml\Model;
 
 use MwbExporter\Model\Index as BaseIndex;
-use MwbExporter\Writer\WriterInterface;
 
 class Index extends BaseIndex
 {
     public function asYAML()
     {
-        return array($this->getName() => $this->getColumnNames());
+        return [$this->getName() => $this->getColumnNames()];
     }
 }

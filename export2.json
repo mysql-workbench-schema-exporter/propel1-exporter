@@ -1,0 +1,32 @@
+{
+    "export": "propel1-yaml",
+    "zip": false,
+    "dir": "build",
+    "params": {
+        "language": "english",
+        "namingStrategy": "pascal-case",
+        "logToConsole": false,
+        "logFile": "",
+        "backupExistingFile": true,
+        "useTabs": false,
+        "indentation": 2,
+        "eolDelimeter": "win",
+        "addGeneratorInfoAsComment": true,
+        "filename": "%schema%.schema.%extension%",
+        "skipPluralNameChecking": false,
+        "useLoggedStorage": false,
+        "sortTablesAndViews": true,
+        "exportOnlyTableCategorized": "",
+        "enhanceManyToManyDetection": true,
+        "skipManyToManyTables": true,
+        "stripMultipleUnderscores": false,
+        "asIsUserDatatypePrefix": "",
+        "connection": "default",
+        "namespace": "",
+        "package": "",
+        "valueIndentationMax": 0,
+        "generateSimpleColumn": false,
+        "validateFkPhpName": true,
+        "fkPhpNameFromModel": true
+    }
+}

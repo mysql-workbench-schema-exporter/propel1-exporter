@@ -35,10 +35,10 @@ class Table extends BaseTable
 {
     public function asYAML()
     {
-        $data = array(
+        $data = [
             'tableName' => $this->getRawTableName(),
-        );
-        if ($namespace = trim($this->parseComment('namespace'))) {
+        ];
+        if ($namespace = trim((string) $this->parseComment('namespace'))) {
             $data['namespace'] = $namespace;
         }
         if ($package = $this->parseComment('package')) {
@@ -89,7 +89,7 @@ class Table extends BaseTable
             if (count($locals = $foreign->getLocals()) == 1) {
                 continue;
             }
-            $attributes = array('foreignTable' => $foreign->getReferencedTable()->getRawTableName());
+            $attributes = ['foreignTable' => $foreign->getReferencedTable()->getRawTableName()];
             if (($action = strtolower($foreign->getParameters()->get('updateRule'))) !== 'no action') {
                 $attributes['onUpdate'] = $action;
             }
@@ -101,15 +101,15 @@ class Table extends BaseTable
             for ($i = 0; $i < count($locals); $i++) {
                 $lcol = $locals[$i];
                 $fcol = $foreigns[$i];
-                $references[] = array('local' => $lcol->getColumnName(), 'foreign' => $fcol->getColumnName());
+                $references[] = ['local' => $lcol->getColumnName(), 'foreign' => $fcol->getColumnName()];
             }
             $attributes['references'] = $references;
-            $foreignKeys = array_merge($foreignKeys, array($foreign->getParameters()->get('name') => $attributes));
+            $foreignKeys = array_merge($foreignKeys, [$foreign->getParameters()->get('name') => $attributes]);
         }
         if (count($foreignKeys)) {
             $data['foreignKeys'] = $foreignKeys;
         }
-        foreach (array('propel_behaviors', 'behaviors') as $key) {
+        foreach (['propel_behaviors', 'behaviors'] as $key) {
             if ($behavior = trim((string) $this->parseComment($key))) {
                 try {
                     $behavior = Yaml::parse($behavior);
@@ -120,6 +120,6 @@ class Table extends BaseTable
             }
         }
 
-        return array($this->getModelName() => $data);
+        return [$this->getModelName() => $data];
     }
 }
