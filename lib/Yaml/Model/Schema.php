@@ -83,7 +83,7 @@ class Schema extends BaseSchema
         if ($package = trim($this->getConfig()->get(Formatter::CFG_PACKAGE))) {
             $data['package'] = $package;
         }
-        $classes = array();
+        $classes = [];
         foreach ($this->getTables() as $table) {
             if ($table->isExternal()) {
                 continue;

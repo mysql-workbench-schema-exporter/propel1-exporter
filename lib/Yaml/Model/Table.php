@@ -45,10 +45,10 @@ class Table extends BaseTable
             $basePackage = $this->getConfig()->get(Formatter::CFG_PACKAGE);
             $data['package'] = ($basePackage ? $basePackage.'.' : '').$package;
         }
-        if ('true' == trim($this->parseComment('allowPkInsert'))) {
+        if ('true' == trim((string) $this->parseComment('allowPkInsert'))) {
             $data['allowPkInsert'] = true;
         }
-        $columns = array();
+        $columns = [];
         foreach ($this->getColumns() as $column) {
             if (!count($attributes = $column->asYAML())) {
                 continue;
@@ -58,7 +58,7 @@ class Table extends BaseTable
         if (count($columns)) {
             $data['columns'] = $columns;
         }
-        $indexes = array();
+        $indexes = [];
         foreach ($this->getIndices() as $index) {
             if (!$index->isIndex()) {
                 continue;
@@ -71,7 +71,7 @@ class Table extends BaseTable
         if (count($indexes)) {
             $data['indexes'] = $indexes;
         }
-        $uniques = array();
+        $uniques = [];
         foreach ($this->getIndices() as $index) {
             if (!$index->isUnique()) {
                 continue;
@@ -84,7 +84,7 @@ class Table extends BaseTable
         if (count($uniques)) {
             $data['uniques'] = $uniques;
         }
-        $foreignKeys = array();
+        $foreignKeys = [];
         foreach ($this->foreignKeys as $foreign) {
             if (count($locals = $foreign->getLocals()) == 1) {
                 continue;
@@ -96,7 +96,7 @@ class Table extends BaseTable
             if (($action = strtolower($foreign->getParameters()->get('deleteRule'))) !== 'no action') {
                 $attributes['onDelete'] = $action;
             }
-            $references = array();
+            $references = [];
             $foreigns = $foreign->getForeigns();
             for ($i = 0; $i < count($locals); $i++) {
                 $lcol = $locals[$i];
@@ -110,7 +110,7 @@ class Table extends BaseTable
             $data['foreignKeys'] = $foreignKeys;
         }
         foreach (array('propel_behaviors', 'behaviors') as $key) {
-            if ($behavior = trim($this->parseComment($key))) {
+            if ($behavior = trim((string) $this->parseComment($key))) {
                 try {
                     $behavior = Yaml::parse($behavior);
                     $data[$key] = $behavior;

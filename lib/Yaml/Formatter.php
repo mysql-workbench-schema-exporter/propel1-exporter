@@ -53,6 +53,7 @@ class Formatter extends BaseFormatter
             static::CFG_GENERATE_SIMPLE_COLUMN  => false,
             static::CFG_VALIDATE_FK_PHP_NAME    => true,
             static::CFG_FK_PHP_NAME_FROM_MODEL  => true,
+            static::CFG_NAMING_STRATEGY         => static::NAMING_PASCAL_CASE,
         ));
     }
 

@@ -59,7 +59,7 @@ class Column extends BaseColumn
         if ($this->getConfig()->get(Formatter::CFG_GENERATE_SIMPLE_COLUMN) && in_array($this->getColumnName(), $this->simpleColumns)) {
             $attributes = null;
         } else {
-            $attributes = array();
+            $attributes = [];
             $type = strtolower($this->getFormatter()->getDatatypeConverter()->getType($this));
             $attributes['type'] = $type;
             switch ($type) {
