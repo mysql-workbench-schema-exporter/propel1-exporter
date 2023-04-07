@@ -69,7 +69,7 @@ class Schema extends BaseSchema
                 $header = $this->getConfig(HeaderConfiguration::class);
                 if ($content = $header->getHeader()) {
                     $writer
-                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_YAML))
+                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_YAML, null))
                         ->write('')
                     ;
                 }

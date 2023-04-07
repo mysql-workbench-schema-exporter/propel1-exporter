@@ -50,7 +50,7 @@ class Schema extends BaseSchema
                 $header = $this->getConfig(HeaderConfiguration::class);
                 if ($content = $header->getHeader()) {
                     $writer
-                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_XML))
+                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_XML, null))
                         ->write('')
                     ;
                 }
