@@ -43,7 +43,7 @@ class Formatter extends BaseFormatter
             ->merge([
                 IndentationConfiguration::class => 4,
                 FilenameConfiguration::class => '%schema%.schema.%extension%',
-            ])
+            ], true)
         ;
     }
 
@@ -109,5 +109,15 @@ class Formatter extends BaseFormatter
     public function getFileExtension()
     {
         return 'xml';
+    }
+
+    /**
+     * Get configuration scope.
+     *
+     * @return string
+     */
+    public static function getScope()
+    {
+        return 'Propel 1.0 Xml';
     }
 }

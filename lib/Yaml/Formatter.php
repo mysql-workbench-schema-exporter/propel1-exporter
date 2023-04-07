@@ -53,7 +53,7 @@ class Formatter extends BaseFormatter
             ->merge([
                 FilenameConfiguration::class => '%schema%.schema.%extension%',
                 NamingStrategyConfiguration::class => NamingStrategyConfiguration::PASCAL_CASE,
-            ])
+            ], true)
         ;
     }
 
@@ -110,5 +110,15 @@ class Formatter extends BaseFormatter
     public function getFileExtension()
     {
         return 'yml';
+    }
+
+    /**
+     * Get configuration scope.
+     *
+     * @return string
+     */
+    public static function getScope()
+    {
+        return 'Propel 1.0 Yaml';
     }
 }

@@ -58,4 +58,19 @@ abstract class Formatter extends BaseFormatter
     {
         return array_merge(parent::getCommentTagPrefixes(), ['propel']);
     }
+
+    public static function getDocDir()
+    {
+        return __DIR__.'/../docs';
+    }
+
+    /**
+     * Get configuration scope.
+     *
+     * @return string
+     */
+    public static function getScope()
+    {
+        return 'Propel 1.0 Global';
+    }
 }
