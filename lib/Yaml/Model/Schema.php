@@ -28,12 +28,12 @@
 namespace MwbExporter\Formatter\Propel1\Yaml\Model;
 
 use MwbExporter\Configuration\Comment as CommentConfiguration;
+use MwbExporter\Configuration\Header as HeaderConfiguration;
 use MwbExporter\Configuration\Indentation as IndentationConfiguration;
 use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespaceConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\Connection as ConnectionConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\ValueIndentation as ValueIndentationConfiguration;
-use MwbExporter\Formatter\Propel1\Yaml\Formatter;
 use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Schema as BaseSchema;
 use MwbExporter\Object\YAML;
@@ -65,6 +65,14 @@ class Schema extends BaseSchema
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
+                /** @var \MwbExporter\Configuration\Header $header */
+                $header = $this->getConfig(HeaderConfiguration::class);
+                if ($content = $header->getHeader()) {
+                    $writer
+                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_YAML))
+                        ->write('')
+                    ;
+                }
                 if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
                     $writer
                         ->write($_this->getFormatter()->getComment(Comment::FORMAT_YAML))
