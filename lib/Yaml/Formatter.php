@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,34 +27,34 @@
 
 namespace MwbExporter\Formatter\Propel1\Yaml;
 
+use MwbExporter\Configuration\Filename as FilenameConfiguration;
+use MwbExporter\Configuration\NamingStrategy as NamingStrategyConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\Connection as ConnectionConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\ForeignKeyFromModel as ForeignKeyFromModelConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\ForeignKeyValidate as ForeignKeyValidateConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\SimpleColumn as SimpleColumnConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\ValueIndentation as ValueIndentationConfiguration;
 use MwbExporter\Formatter\Propel1\Formatter as BaseFormatter;
 use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
 {
-    const CFG_CONNECTION              = 'connection';
-    const CFG_NAMESPACE               = 'namespace';
-    const CFG_PACKAGE                 = 'package';
-    const CFG_VALUE_INDENT_MAX        = 'valueIndentationMax';
-    const CFG_GENERATE_SIMPLE_COLUMN  = 'generateSimpleColumn';
-    const CFG_VALIDATE_FK_PHP_NAME    = 'validateFkPhpName';
-    const CFG_FK_PHP_NAME_FROM_MODEL  = 'fkPhpNameFromModel';
-
     protected function init()
     {
         parent::init();
-        $this->addConfigurations([
-            static::CFG_INDENTATION             => 2,
-            static::CFG_FILENAME                => '%schema%.schema.%extension%',
-            static::CFG_CONNECTION              => 'default',
-            static::CFG_NAMESPACE               => '',
-            static::CFG_PACKAGE                 => '',
-            static::CFG_VALUE_INDENT_MAX        => 0,
-            static::CFG_GENERATE_SIMPLE_COLUMN  => false,
-            static::CFG_VALIDATE_FK_PHP_NAME    => true,
-            static::CFG_FK_PHP_NAME_FROM_MODEL  => true,
-            static::CFG_NAMING_STRATEGY         => static::NAMING_PASCAL_CASE,
-        ]);
+        $this->getConfigurations()
+            ->add(new PackageConfiguration())
+            ->add(new ConnectionConfiguration())
+            ->add(new SimpleColumnConfiguration())
+            ->add(new ForeignKeyValidateConfiguration())
+            ->add(new ForeignKeyFromModelConfiguration())
+            ->add(new ValueIndentationConfiguration())
+            ->merge([
+                FilenameConfiguration::class => '%schema%.schema.%extension%',
+                NamingStrategyConfiguration::class => NamingStrategyConfiguration::PASCAL_CASE,
+            ])
+        ;
     }
 
     /**

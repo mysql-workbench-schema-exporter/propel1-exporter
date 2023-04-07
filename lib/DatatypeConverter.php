@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,65 +35,65 @@ class DatatypeConverter extends BaseDatatypeConverter
     public function setup()
     {
         $this->register([
-            static::DATATYPE_TINYINT            => 'tinyint',
-            static::DATATYPE_SMALLINT           => 'smallint',
-            static::DATATYPE_MEDIUMINT          => 'integer',
-            static::DATATYPE_INT                => 'integer',
-            static::DATATYPE_BIGINT             => 'bigint',
-            static::DATATYPE_FLOAT              => 'float',
-            static::DATATYPE_DOUBLE             => 'double',
-            static::DATATYPE_DECIMAL            => 'decimal',
-            static::DATATYPE_CHAR               => 'char',
-            static::DATATYPE_NCHAR              => 'char',
-            static::DATATYPE_VARCHAR            => 'varchar',
-            static::DATATYPE_NVARCHAR           => 'varchar',
-            static::DATATYPE_BINARY             => 'binary',
-            static::DATATYPE_VARBINARY          => 'varbinary',
-            static::DATATYPE_TINYTEXT           => 'text',
-            static::DATATYPE_TEXT               => 'longvarchar',
-            static::DATATYPE_MEDIUMTEXT         => 'longvarchar',
-            static::DATATYPE_LONGTEXT           => 'clob',
-            static::DATATYPE_TINYBLOB           => 'blob',
-            static::DATATYPE_BLOB               => 'binary',
-            static::DATATYPE_MEDIUMBLOB         => 'varbinary',
-            static::DATATYPE_LONGBLOB           => 'longvarbinary',
-            static::DATATYPE_DATETIME           => 'timestamp',
-            static::DATATYPE_DATETIME_F         => 'timestamp',
-            static::DATATYPE_DATE               => 'date',
-            static::DATATYPE_DATE_F             => 'date',
-            static::DATATYPE_TIME               => 'time',
-            static::DATATYPE_TIME_F             => 'time',
-            static::DATATYPE_TIMESTAMP          => 'timestamp',
-            static::DATATYPE_TIMESTAMP_F        => 'timestamp',
-            static::DATATYPE_YEAR               => 'smallint',
-            static::DATATYPE_GEOMETRY           => 'object',
-            static::DATATYPE_LINESTRING         => 'object',
-            static::DATATYPE_POLYGON            => 'object',
-            static::DATATYPE_MULTIPOINT         => 'object',
-            static::DATATYPE_MULTILINESTRING    => 'object',
-            static::DATATYPE_MULTIPOLYGON       => 'object',
+            static::DATATYPE_TINYINT => 'tinyint',
+            static::DATATYPE_SMALLINT => 'smallint',
+            static::DATATYPE_MEDIUMINT => 'integer',
+            static::DATATYPE_INT => 'integer',
+            static::DATATYPE_BIGINT => 'bigint',
+            static::DATATYPE_FLOAT => 'float',
+            static::DATATYPE_DOUBLE => 'double',
+            static::DATATYPE_DECIMAL => 'decimal',
+            static::DATATYPE_CHAR => 'char',
+            static::DATATYPE_NCHAR => 'char',
+            static::DATATYPE_VARCHAR => 'varchar',
+            static::DATATYPE_NVARCHAR => 'varchar',
+            static::DATATYPE_BINARY => 'binary',
+            static::DATATYPE_VARBINARY => 'varbinary',
+            static::DATATYPE_TINYTEXT => 'text',
+            static::DATATYPE_TEXT => 'longvarchar',
+            static::DATATYPE_MEDIUMTEXT => 'longvarchar',
+            static::DATATYPE_LONGTEXT => 'clob',
+            static::DATATYPE_TINYBLOB => 'blob',
+            static::DATATYPE_BLOB => 'binary',
+            static::DATATYPE_MEDIUMBLOB => 'varbinary',
+            static::DATATYPE_LONGBLOB => 'longvarbinary',
+            static::DATATYPE_DATETIME => 'timestamp',
+            static::DATATYPE_DATETIME_F => 'timestamp',
+            static::DATATYPE_DATE => 'date',
+            static::DATATYPE_DATE_F => 'date',
+            static::DATATYPE_TIME => 'time',
+            static::DATATYPE_TIME_F => 'time',
+            static::DATATYPE_TIMESTAMP => 'timestamp',
+            static::DATATYPE_TIMESTAMP_F => 'timestamp',
+            static::DATATYPE_YEAR => 'smallint',
+            static::DATATYPE_GEOMETRY => 'object',
+            static::DATATYPE_LINESTRING => 'object',
+            static::DATATYPE_POLYGON => 'object',
+            static::DATATYPE_MULTIPOINT => 'object',
+            static::DATATYPE_MULTILINESTRING => 'object',
+            static::DATATYPE_MULTIPOLYGON => 'object',
             static::DATATYPE_GEOMETRYCOLLECTION => 'object',
-            static::DATATYPE_BIT                => 'bigint',
-            static::DATATYPE_ENUM               => 'varchar',
-            static::DATATYPE_SET                => 'varchar',
-            static::USERDATATYPE_BOOLEAN        => 'boolean',
-            static::USERDATATYPE_BOOL           => 'boolean',
-            static::USERDATATYPE_FIXED          => 'decimal',
-            static::USERDATATYPE_FLOAT4         => 'float',
-            static::USERDATATYPE_FLOAT8         => 'float',
-            static::USERDATATYPE_INT1           => 'integer',
-            static::USERDATATYPE_INT2           => 'integer',
-            static::USERDATATYPE_INT3           => 'integer',
-            static::USERDATATYPE_INT4           => 'integer',
-            static::USERDATATYPE_INT8           => 'integer',
-            static::USERDATATYPE_INTEGER        => 'integer',
-            static::USERDATATYPE_LONGVARBINARY  => 'longvarbinary',
-            static::USERDATATYPE_LONGVARCHAR    => 'longvarchar',
-            static::USERDATATYPE_LONG           => 'bigint',
-            static::USERDATATYPE_MIDDLEINT      => 'integer',
-            static::USERDATATYPE_NUMERIC        => 'decimal',
-            static::USERDATATYPE_DEC            => 'decimal',
-            static::USERDATATYPE_CHARACTER      => 'char',
+            static::DATATYPE_BIT => 'bigint',
+            static::DATATYPE_ENUM => 'varchar',
+            static::DATATYPE_SET => 'varchar',
+            static::USERDATATYPE_BOOLEAN => 'boolean',
+            static::USERDATATYPE_BOOL => 'boolean',
+            static::USERDATATYPE_FIXED => 'decimal',
+            static::USERDATATYPE_FLOAT4 => 'float',
+            static::USERDATATYPE_FLOAT8 => 'float',
+            static::USERDATATYPE_INT1 => 'integer',
+            static::USERDATATYPE_INT2 => 'integer',
+            static::USERDATATYPE_INT3 => 'integer',
+            static::USERDATATYPE_INT4 => 'integer',
+            static::USERDATATYPE_INT8 => 'integer',
+            static::USERDATATYPE_INTEGER => 'integer',
+            static::USERDATATYPE_LONGVARBINARY => 'longvarbinary',
+            static::USERDATATYPE_LONGVARCHAR => 'longvarchar',
+            static::USERDATATYPE_LONG => 'bigint',
+            static::USERDATATYPE_MIDDLEINT => 'integer',
+            static::USERDATATYPE_NUMERIC => 'decimal',
+            static::USERDATATYPE_DEC => 'decimal',
+            static::USERDATATYPE_CHARACTER => 'char',
         ]);
     }
 
@@ -108,27 +108,22 @@ class DatatypeConverter extends BaseDatatypeConverter
             case 'float':
             case 'object':
                 break;
-
             case 'smallint':
             case 'bigint':
                 $type = 'integer';
                 break;
-
             case 'datetimez':
             case 'date':
             case 'time':
                 $type = 'datetime';
                 break;
-
             case 'decimal':
                 $type = 'float';
                 break;
-
             case 'text':
             case 'blob':
                 $type = 'string';
                 break;
-
             default:
                 break;
         }

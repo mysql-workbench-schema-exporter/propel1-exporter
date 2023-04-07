@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +27,17 @@
 
 namespace MwbExporter\Formatter\Propel1\Yaml\Model;
 
-use MwbExporter\Model\Schema as BaseSchema;
+use MwbExporter\Configuration\Comment as CommentConfiguration;
+use MwbExporter\Configuration\Indentation as IndentationConfiguration;
+use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespaceConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\Connection as ConnectionConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\ValueIndentation as ValueIndentationConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Formatter;
-use MwbExporter\Writer\WriterInterface;
-use MwbExporter\Object\YAML;
 use MwbExporter\Helper\Comment;
+use MwbExporter\Model\Schema as BaseSchema;
+use MwbExporter\Object\YAML;
+use MwbExporter\Writer\WriterInterface;
 
 class Schema extends BaseSchema
 {
@@ -44,9 +50,11 @@ class Schema extends BaseSchema
     public function write(WriterInterface $writer)
     {
         $data = $this->asYAML();
-        $indent = $this->getConfig()->get(Formatter::CFG_INDENTATION);
+        /** @var \MwbExporter\Configuration\Indentation $indentation */
+        $indentation = $this->getConfig(IndentationConfiguration::class);
+        $indent = strlen($indentation->getIndentation(1));
         $size = $this->getInlineSize($data, 0, $indent) + 3;
-        if (($maxSize = $this->getConfig()->get(Formatter::CFG_VALUE_INDENT_MAX)) > 0) {
+        if (($maxSize = $this->getConfig(ValueIndentationConfiguration::class)->getValue()) > 0) {
             $size = min($size, $maxSize);
         }
         $yaml = new YAML($data, [
@@ -57,7 +65,7 @@ class Schema extends BaseSchema
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
-                if ($_this->getConfig()->get(Formatter::CFG_ADD_COMMENT)) {
+                if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
                     $writer
                         ->write($_this->getFormatter()->getComment(Comment::FORMAT_YAML))
                         ->write('')
@@ -74,13 +82,13 @@ class Schema extends BaseSchema
     public function asYAML()
     {
         $data = [
-            'connection'      => $this->getConfig()->get(Formatter::CFG_CONNECTION),
+            'connection' => $this->getConfig(ConnectionConfiguration::class)->getValue(),
             'defaultIdMethod' => 'native',
         ];
-        if ($namespace = trim($this->getConfig()->get(Formatter::CFG_NAMESPACE))) {
+        if ($namespace = trim($this->getConfig(ModelNamespaceConfiguration::class)->getValue())) {
             $data['namespace'] = $namespace;
         }
-        if ($package = trim($this->getConfig()->get(Formatter::CFG_PACKAGE))) {
+        if ($package = trim($this->getConfig(PackageConfiguration::class)->getValue())) {
             $data['package'] = $package;
         }
         $classes = [];

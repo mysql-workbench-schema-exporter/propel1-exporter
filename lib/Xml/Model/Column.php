@@ -3,7 +3,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,23 +35,24 @@ class Column extends BaseColumn
     {
         $type = strtoupper($this->getFormatter()->getDatatypeConverter()->getType($this));
 
-        if($type == 'DECIMAL'){
+        if($type == 'DECIMAL') {
             $type = $type.'" size="'.$this->parameters->get('precision').'" scale="'.$this->parameters->get('scale');
         }
-        if($type == 'ENUM' or $type == 'SET'){
+        if($type == 'ENUM' or $type == 'SET') {
             $type = $type.'" sqlType="'.$type.$this->parameters->get('datatypeExplicitParams').'" valueSet="'.substr($this->parameters->get('datatypeExplicitParams'), 1, -1);
         }
 
         $writer
-            ->write('<column name="%s" type="%s"%s%s%s%s%s%s />',
+            ->write(
+                '<column name="%s" type="%s"%s%s%s%s%s%s />',
                 $this->getColumnName(),                                                                                // name
                 $type,                                                                                                 // type
-                ($this->isPrimary                        == 1  ? ' primaryKey="true"'                           : ''), // primaryKey
-                ($this->parameters->get('length')         > 0  ? ' size="'.$this->parameters->get('length').'"' : ''), // size
-                ($this->isNotNull()                            ? ' required="true"'                             : ''), // required
-                ($this->isAutoIncrement()                      ? ' autoIncrement="true"'                        : ''), // autoIncrement
+                ($this->isPrimary == 1 ? ' primaryKey="true"' : ''), // primaryKey
+                ($this->parameters->get('length') > 0 ? ' size="'.$this->parameters->get('length').'"' : ''), // size
+                ($this->isNotNull() ? ' required="true"' : ''), // required
+                ($this->isAutoIncrement() ? ' autoIncrement="true"' : ''), // autoIncrement
                 (($defaultValue = $this->getDefaultValue()) && !in_array($defaultValue, ['CURRENT_TIMESTAMP']) ? ' defaultValue="'.$defaultValue.'"' : ''), // defaultValue
-                ($defaultValue                                 ? ' defaultExpr="'.$defaultValue.'"'             : '') // defaultExpr
+                ($defaultValue ? ' defaultExpr="'.$defaultValue.'"' : '') // defaultExpr
             )
         ;
 

@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,23 +27,24 @@
 
 namespace MwbExporter\Formatter\Propel1\Xml;
 
+use MwbExporter\Configuration\Indentation as IndentationConfiguration;
+use MwbExporter\Configuration\Filename as FilenameConfiguration;
+use MwbExporter\Formatter\Propel1\Xml\Configuration\Vendor as VendorConfiguration;
 use MwbExporter\Formatter\Propel1\Formatter as BaseFormatter;
 use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
 {
-    const CFG_NAMESPACE  = 'namespace';
-    const CFG_ADD_VENDOR = 'addVendor';
-
     protected function init()
     {
         parent::init();
-        $this->addConfigurations([
-            static::CFG_INDENTATION            => 4,
-            static::CFG_FILENAME               => '%schema%.schema.%extension%',
-            static::CFG_NAMESPACE              => '',
-            static::CFG_ADD_VENDOR             => false,
-        ]);
+        $this->getConfigurations()
+            ->add(new VendorConfiguration())
+            ->merge([
+                IndentationConfiguration::class => 4,
+                FilenameConfiguration::class => '%schema%.schema.%extension%',
+            ])
+        ;
     }
 
     /**

@@ -1,9 +1,10 @@
 <?php
+
 /*
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +27,9 @@
 
 namespace MwbExporter\Formatter\Propel1\Xml\Model;
 
+use MwbExporter\Formatter\Propel1\Xml\Configuration\Vendor as VendorConfiguration;
 use MwbExporter\Model\Table as BaseTable;
 use MwbExporter\Writer\WriterInterface;
-use MwbExporter\Formatter\Propel1\Xml\Formatter;
 
 class Table extends BaseTable
 {
@@ -37,22 +38,23 @@ class Table extends BaseTable
         if (!$this->isExternal()) {
             $writer
                 ->indent()
-                    ->write('<table name="%s" phpName="%s"%s>',
-                        $this->getRawTableName(),
-                        $this->getModelName(),
-                        ($namespace = trim((string) $this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
-                    )
-                    ->indent()
-                        ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
-                            if ($_this->getConfig()->get(Formatter::CFG_ADD_VENDOR)) {
-                                $_this->writeVendor($writer);
-                            }
-                            $_this->getColumns()->write($writer);
-                            $_this->writeIndex($writer);
-                            $_this->writeRelations($writer);
-                        })
-                    ->outdent()
-                    ->write('</table>')
+                ->write(
+                    '<table name="%s" phpName="%s"%s>',
+                    $this->getRawTableName(),
+                    $this->getModelName(),
+                    ($namespace = trim((string) $this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
+                )
+                ->indent()
+                ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                    if ($_this->getConfig(VendorConfiguration::class)->getValue()) {
+                        $_this->writeVendor($writer);
+                    }
+                    $_this->getColumns()->write($writer);
+                    $_this->writeIndex($writer);
+                    $_this->writeRelations($writer);
+                })
+                ->outdent()
+                ->write('</table>')
                 ->outdent()
             ;
 
@@ -87,7 +89,8 @@ class Table extends BaseTable
     {
         foreach ($this->foreignKeys as $foreign) {
             $writer
-                ->write('<foreign-key name="%s" foreignTable="%s" phpName="%s" refPhpName="%s" onDelete="%s" onUpdate="%s">',
+                ->write(
+                    '<foreign-key name="%s" foreignTable="%s" phpName="%s" refPhpName="%s" onDelete="%s" onUpdate="%s">',
                     $foreign->parameters->get('name'),
                     $foreign->getReferencedTable()->getRawTableName(),
                     $foreign->getReferencedTable()->getModelName(),
@@ -101,7 +104,8 @@ class Table extends BaseTable
             $foreigns = $foreign->getForeigns();
             for ($i = 0; $i < count($locals); $i++) {
                 $writer
-                    ->write('<reference local="%s" foreign="%s" />',
+                    ->write(
+                        '<reference local="%s" foreign="%s" />',
                         $locals[$i]->getColumnName(),
                         $foreigns[$i]->getColumnName()
                     )

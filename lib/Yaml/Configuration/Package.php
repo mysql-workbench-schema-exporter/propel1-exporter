@@ -1,9 +1,9 @@
 <?php
+
 /*
  * The MIT License
  *
- * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +24,22 @@
  * THE SOFTWARE.
  */
 
-namespace MwbExporter\Formatter\Propel1\Xml\Model;
+namespace MwbExporter\Formatter\Propel1\Yaml\Configuration;
 
-use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespaceConfiguration;
-use MwbExporter\Model\View as BaseView;
-use MwbExporter\Writer\WriterInterface;
+use MwbExporter\Configuration\Configuration;
 
-class View extends BaseView
+/**
+ * Package name.
+ *
+ * @author Toha <tohenk@yahoo.com>
+ * @config package
+ * @label Package name
+ */
+class Package extends Configuration
 {
-    public function writeView(WriterInterface $writer)
+    protected function initialize()
     {
-        if (!$this->isExternal()) {
-            $namespace = $this->getConfig(ModelNamespaceConfiguration::class)->getValue();
-            $writer
-                ->indent()
-                    // views do not consist of columns just SQL queries
-                ->write('<table name="%s" phpName="%s" namespace="%s" skipSql="true" readOnly="true">', $this->getRawViewName(), $this->getModelName(), $namespace)
-                ->write('</table>')
-                ->outdent()
-            ;
-
-            return self::WRITE_OK;
-        }
-
-        return self::WRITE_EXTERNAL;
+        $this->category = 'propelConfiguration';
+        $this->defaultValue = '';
     }
 }

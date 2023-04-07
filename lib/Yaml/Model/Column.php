@@ -3,7 +3,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,11 @@
 
 namespace MwbExporter\Formatter\Propel1\Yaml\Model;
 
-use MwbExporter\Model\Column as BaseColumn;
-use MwbExporter\Writer\WriterInterface;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\ForeignKeyFromModel as ForeignKeyFromModelConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\ForeignKeyValidate as ForeignKeyValidateConfiguration;
+use MwbExporter\Formatter\Propel1\Yaml\Configuration\SimpleColumn as SimpleColumnConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Formatter;
+use MwbExporter\Model\Column as BaseColumn;
 
 class Column extends BaseColumn
 {
@@ -38,7 +40,7 @@ class Column extends BaseColumn
      * @var array
      */
     protected $simpleColumns = ['created_at', 'updated_at'];
-    
+
     protected function getForeignTableCount($table)
     {
         $count = 0;
@@ -56,7 +58,7 @@ class Column extends BaseColumn
 
     public function asYAML()
     {
-        if ($this->getConfig()->get(Formatter::CFG_GENERATE_SIMPLE_COLUMN) && in_array($this->getColumnName(), $this->simpleColumns)) {
+        if ($this->getConfig(SimpleColumnConfiguration::class)->getValue() && in_array($this->getColumnName(), $this->simpleColumns)) {
             $attributes = null;
         } else {
             $attributes = [];
@@ -69,7 +71,6 @@ class Column extends BaseColumn
                         $attributes['scale'] = $this->parameters->get('scale');
                     }
                     break;
-    
                 case 'enum':
                     break;
             }
@@ -103,12 +104,12 @@ class Column extends BaseColumn
                 }
                 // validate foreign referenced table name for name conflict with
                 // table columns
-                if ($this->getConfig()->get(Formatter::CFG_VALIDATE_FK_PHP_NAME)) {
+                if ($this->getConfig(ForeignKeyValidateConfiguration::class)->getValue()) {
                     $foreignTableName = $foreign->getReferencedTable()->getModelName();
                     $foreignCount = $this->getForeignTableCount($foreignTableName);
                     $columns = array_map('strtolower', $this->getTable()->getColumns()->getColumnNames());
                     if ($foreignCount > 1 || in_array(strtolower($foreign->getReferencedTable()->getRawTableName()), $columns)) {
-                        if ($foreignCount == 1 && !$this->getConfig()->get(Formatter::CFG_FK_PHP_NAME_FROM_MODEL)) {
+                        if ($foreignCount == 1 && !$this->getConfig(ForeignKeyFromModelConfiguration::class)->getValue()) {
                             $foreignTableName .= 'FK';
                         } else {
                             $foreignTableName .= $this->getNaming($this->getTable()->formatRelatedName($this->getColumnName()));

@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,11 @@
 
 namespace MwbExporter\Formatter\Propel1\Xml\Model;
 
+use MwbExporter\Configuration\Comment as CommentConfiguration;
+use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespaceConfiguration;
+use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Schema as BaseSchema;
 use MwbExporter\Writer\WriterInterface;
-use MwbExporter\Formatter\Propel1\Xml\Formatter;
-use MwbExporter\Helper\Comment;
 
 class Schema extends BaseSchema
 {
@@ -44,15 +45,16 @@ class Schema extends BaseSchema
             ->open($this->getDocument()->translateFilename(null, $this))
             ->write('<?xml version="1.0" encoding="UTF-8"?>')
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
-                if ($_this->getConfig()->get(Formatter::CFG_ADD_COMMENT)) {
+                if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
                     $writer
                         ->write($_this->getFormatter()->getComment(Comment::FORMAT_XML))
                     ;
                 }
             })
-            ->write('<database name="%s" defaultIdMethod="native"%s>',
+            ->write(
+                '<database name="%s" defaultIdMethod="native"%s>',
                 $this->getName(),
-                ($namespace = $this->getConfig()->get(Formatter::CFG_NAMESPACE)) ? sprintf(' namespace="%s"', $namespace) : ''
+                ($namespace = $this->getConfig(ModelNamespaceConfiguration::class)->getValue()) ? sprintf(' namespace="%s"', $namespace) : ''
             )
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
                 $_this->writeSchema($writer);

@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2014 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +28,18 @@
 namespace MwbExporter\Formatter\Propel1;
 
 use MwbExporter\Formatter\Formatter as BaseFormatter;
+use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespaceConfiguration;
 
 abstract class Formatter extends BaseFormatter
 {
+    protected function init()
+    {
+        parent::init();
+        $this->getConfigurations()
+            ->add(new ModelNamespaceConfiguration())
+        ;
+    }
+
     public function getVersion()
     {
         return 'dev';
