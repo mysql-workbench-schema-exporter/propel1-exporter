@@ -86,7 +86,10 @@ class Column extends BaseColumn
             if ($this->isAutoIncrement()) {
                 $attributes['autoIncrement'] = true;
             }
-            if (($defaultValue = $this->getDefaultValue()) && !in_array($defaultValue, ['CURRENT_TIMESTAMP'])) {
+            if (($defaultValue = $this->getDefaultValue()) && !$this->isDefaultValueCurrentTimestamp()) {
+                $attributes['defaultValue'] = $defaultValue;
+            }
+            if ($defaultValue = $this->getDefaultValue()) {
                 $attributes['defaultExpr'] = $defaultValue;
             }
             // simple foreign key
