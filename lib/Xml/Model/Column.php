@@ -51,7 +51,7 @@ class Column extends BaseColumn
                 ($this->parameters->get('length') > 0 ? ' size="'.$this->parameters->get('length').'"' : ''), // size
                 ($this->isNotNull() ? ' required="true"' : ''), // required
                 ($this->isAutoIncrement() ? ' autoIncrement="true"' : ''), // autoIncrement
-                (($defaultValue = $this->getDefaultValue()) && !in_array($defaultValue, ['CURRENT_TIMESTAMP']) ? ' defaultValue="'.$defaultValue.'"' : ''), // defaultValue
+                (($defaultValue = $this->getDefaultValue()) && !$this->isDefaultValueCurrentTimestamp() ? ' defaultValue="'.$defaultValue.'"' : ''), // defaultValue
                 ($defaultValue ? ' defaultExpr="'.$defaultValue.'"' : '') // defaultExpr
             )
         ;
