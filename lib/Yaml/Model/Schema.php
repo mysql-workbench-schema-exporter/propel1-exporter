@@ -36,8 +36,8 @@ use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfigura
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\ValueIndentation as ValueIndentationConfiguration;
 use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Schema as BaseSchema;
-use MwbExporter\Object\YAML;
 use MwbExporter\Writer\WriterInterface;
+use NTLAB\Object\YAML;
 
 class Schema extends BaseSchema
 {
@@ -52,13 +52,13 @@ class Schema extends BaseSchema
         $data = $this->asYAML();
         /** @var \MwbExporter\Configuration\Indentation $indentation */
         $indentation = $this->getConfig(IndentationConfiguration::class);
-        $indent = strlen($indentation->getIndentation(1));
-        $size = $this->getInlineSize($data, 0, $indent) + 3;
+        $indent = $indentation->getIndentation(1);
+        $size = $this->getInlineSize($data, 0, strlen($indent)) + 3;
         if (($maxSize = $this->getConfig(ValueIndentationConfiguration::class)->getValue()) > 0) {
             $size = min($size, $maxSize);
         }
         $yaml = new YAML($data, [
-            'indent' => $indent,
+            'indentation' => $indent,
             'inline' => true,
             'inline_size' => $size,
         ]);

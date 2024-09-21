@@ -29,7 +29,6 @@ namespace MwbExporter\Formatter\Propel1\Yaml\Model;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\ForeignKeyFromModel as ForeignKeyFromModelConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\ForeignKeyValidate as ForeignKeyValidateConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\SimpleColumn as SimpleColumnConfiguration;
-use MwbExporter\Formatter\Propel1\Yaml\Formatter;
 use MwbExporter\Model\Column as BaseColumn;
 
 class Column extends BaseColumn

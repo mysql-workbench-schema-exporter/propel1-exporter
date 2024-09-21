@@ -27,7 +27,6 @@
 namespace MwbExporter\Formatter\Propel1\Yaml\Model;
 
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfiguration;
-use MwbExporter\Formatter\Propel1\Yaml\Formatter;
 use MwbExporter\Model\Table as BaseTable;
 use Symfony\Component\Yaml\Yaml;
 
