@@ -36,6 +36,7 @@ use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfigura
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\SimpleColumn as SimpleColumnConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\ValueIndentation as ValueIndentationConfiguration;
 use MwbExporter\Formatter\Propel1\Formatter as BaseFormatter;
+use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
@@ -55,6 +56,7 @@ class Formatter extends BaseFormatter
                 NamingStrategyConfiguration::class => NamingStrategyConfiguration::PASCAL_CASE,
             ], true)
         ;
+        $this->commentFormat = Comment::FORMAT_YAML;
     }
 
     /**

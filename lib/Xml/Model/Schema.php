@@ -30,7 +30,6 @@ namespace MwbExporter\Formatter\Propel1\Xml\Model;
 use MwbExporter\Configuration\Comment as CommentConfiguration;
 use MwbExporter\Configuration\Header as HeaderConfiguration;
 use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespaceConfiguration;
-use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Schema as BaseSchema;
 use MwbExporter\Writer\WriterInterface;
 
@@ -44,22 +43,29 @@ class Schema extends BaseSchema
     {
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
-            ->write('<?xml version="1.0" encoding="UTF-8"?>')
             ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
                 /** @var \MwbExporter\Configuration\Header $header */
                 $header = $this->getConfig(HeaderConfiguration::class);
                 if ($content = $header->getHeader()) {
                     $writer
-                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_XML, null))
+                        ->commentStart()
+                            ->write($content)
+                        ->commentEnd()
                         ->write('')
                     ;
                 }
                 if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
-                    $writer
-                        ->write($_this->getFormatter()->getComment(Comment::FORMAT_XML))
-                    ;
+                    if ($content = $_this->getFormatter()->getComment(null)) {
+                        $writer
+                            ->commentStart()
+                                ->write($content)
+                            ->commentEnd()
+                            ->write('')
+                        ;
+                    }
                 }
             })
+            ->write('<?xml version="1.0" encoding="UTF-8"?>')
             ->write(
                 '<database name="%s" defaultIdMethod="native"%s>',
                 $this->getName(),

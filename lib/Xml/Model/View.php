@@ -39,8 +39,8 @@ class View extends BaseView
             $writer
                 ->indent()
                     // views do not consist of columns just SQL queries
-                ->write('<table name="%s" phpName="%s" namespace="%s" skipSql="true" readOnly="true">', $this->getRawViewName(), $this->getModelName(), $namespace)
-                ->write('</table>')
+                    ->write('<table name="%s" phpName="%s" namespace="%s" skipSql="true" readOnly="true">', $this->getRawViewName(), $this->getModelName(), $namespace)
+                    ->write('</table>')
                 ->outdent()
             ;
 

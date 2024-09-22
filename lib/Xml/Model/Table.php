@@ -38,23 +38,23 @@ class Table extends BaseTable
         if (!$this->isExternal()) {
             $writer
                 ->indent()
-                ->write(
-                    '<table name="%s" phpName="%s"%s>',
-                    $this->getRawTableName(),
-                    $this->getModelName(),
-                    ($namespace = trim((string) $this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
-                )
-                ->indent()
-                ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
-                    if ($_this->getConfig(VendorConfiguration::class)->getValue()) {
-                        $_this->writeVendor($writer);
-                    }
-                    $_this->getColumns()->write($writer);
-                    $_this->writeIndex($writer);
-                    $_this->writeRelations($writer);
-                })
-                ->outdent()
-                ->write('</table>')
+                    ->write(
+                        '<table name="%s" phpName="%s"%s>',
+                        $this->getRawTableName(),
+                        $this->getModelName(),
+                        ($namespace = trim((string) $this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
+                    )
+                    ->indent()
+                        ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                            if ($_this->getConfig(VendorConfiguration::class)->getValue()) {
+                                $_this->writeVendor($writer);
+                            }
+                            $_this->getColumns()->write($writer);
+                            $_this->writeIndex($writer);
+                            $_this->writeRelations($writer);
+                        })
+                    ->outdent()
+                    ->write('</table>')
                 ->outdent()
             ;
 

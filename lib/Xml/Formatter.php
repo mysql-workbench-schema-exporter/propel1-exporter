@@ -31,6 +31,7 @@ use MwbExporter\Configuration\Indentation as IndentationConfiguration;
 use MwbExporter\Configuration\Filename as FilenameConfiguration;
 use MwbExporter\Formatter\Propel1\Xml\Configuration\Vendor as VendorConfiguration;
 use MwbExporter\Formatter\Propel1\Formatter as BaseFormatter;
+use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Base;
 
 class Formatter extends BaseFormatter
@@ -45,6 +46,7 @@ class Formatter extends BaseFormatter
                 FilenameConfiguration::class => '%schema%.schema.%extension%',
             ], true)
         ;
+        $this->commentFormat = Comment::FORMAT_XML;
     }
 
     /**
