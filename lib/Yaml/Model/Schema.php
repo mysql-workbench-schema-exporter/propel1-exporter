@@ -4,7 +4,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2024 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,10 +34,9 @@ use MwbExporter\Formatter\Propel1\Configuration\ModelNamespace as ModelNamespace
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\Connection as ConnectionConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\Package as PackageConfiguration;
 use MwbExporter\Formatter\Propel1\Yaml\Configuration\ValueIndentation as ValueIndentationConfiguration;
-use MwbExporter\Helper\Comment;
 use MwbExporter\Model\Schema as BaseSchema;
-use MwbExporter\Object\YAML;
 use MwbExporter\Writer\WriterInterface;
+use NTLAB\Object\YAML;
 
 class Schema extends BaseSchema
 {
@@ -52,13 +51,13 @@ class Schema extends BaseSchema
         $data = $this->asYAML();
         /** @var \MwbExporter\Configuration\Indentation $indentation */
         $indentation = $this->getConfig(IndentationConfiguration::class);
-        $indent = strlen($indentation->getIndentation(1));
-        $size = $this->getInlineSize($data, 0, $indent) + 3;
+        $indent = $indentation->getIndentation(1);
+        $size = $this->getInlineSize($data, 0, strlen($indent)) + 3;
         if (($maxSize = $this->getConfig(ValueIndentationConfiguration::class)->getValue()) > 0) {
             $size = min($size, $maxSize);
         }
         $yaml = new YAML($data, [
-            'indent' => $indent,
+            'indentation' => $indent,
             'inline' => true,
             'inline_size' => $size,
         ]);
@@ -69,15 +68,17 @@ class Schema extends BaseSchema
                 $header = $this->getConfig(HeaderConfiguration::class);
                 if ($content = $header->getHeader()) {
                     $writer
-                        ->write($_this->getFormatter()->getFormattedComment($content, Comment::FORMAT_YAML, null))
+                        ->writeComment($content)
                         ->write('')
                     ;
                 }
                 if ($_this->getConfig(CommentConfiguration::class)->getValue()) {
-                    $writer
-                        ->write($_this->getFormatter()->getComment(Comment::FORMAT_YAML))
-                        ->write('')
-                    ;
+                    if ($content = $_this->getFormatter()->getComment(null)) {
+                        $writer
+                            ->writeComment($content)
+                            ->write('')
+                        ;
+                    }
                 }
             })
             ->write($yaml)

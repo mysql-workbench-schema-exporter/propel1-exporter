@@ -3,7 +3,7 @@
  * The MIT License
  *
  * Copyright (c) 2010 Johannes Mueller <circus2(at)web.de>
- * Copyright (c) 2012-2023 Toha <tohenk@yahoo.com>
+ * Copyright (c) 2012-2024 Toha <tohenk@yahoo.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,8 +39,8 @@ class View extends BaseView
             $writer
                 ->indent()
                     // views do not consist of columns just SQL queries
-                ->write('<table name="%s" phpName="%s" namespace="%s" skipSql="true" readOnly="true">', $this->getRawViewName(), $this->getModelName(), $namespace)
-                ->write('</table>')
+                    ->write('<table name="%s" phpName="%s" namespace="%s" skipSql="true" readOnly="true">', $this->getRawViewName(), $this->getModelName(), $namespace)
+                    ->write('</table>')
                 ->outdent()
             ;
 
