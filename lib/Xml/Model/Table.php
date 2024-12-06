@@ -45,7 +45,7 @@ class Table extends BaseTable
                         ($namespace = trim((string) $this->parseComment('namespace'))) ? sprintf(' namespace="%s"', $namespace) : ''
                     )
                     ->indent()
-                        ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
+                        ->writeCallback(function(WriterInterface $writer, ?Table $_this = null) {
                             if ($_this->getConfig(VendorConfiguration::class)->getValue()) {
                                 $_this->writeVendor($writer);
                             }
