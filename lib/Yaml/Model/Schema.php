@@ -63,7 +63,7 @@ class Schema extends BaseSchema
         ]);
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
-            ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
+            ->writeCallback(function(WriterInterface $writer, ?Schema $_this = null) {
                 /** @var \MwbExporter\Configuration\Header $header */
                 $header = $this->getConfig(HeaderConfiguration::class);
                 if ($content = $header->getHeader()) {

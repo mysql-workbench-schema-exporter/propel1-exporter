@@ -43,7 +43,7 @@ class Schema extends BaseSchema
     {
         $writer
             ->open($this->getDocument()->translateFilename(null, $this))
-            ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
+            ->writeCallback(function(WriterInterface $writer, ?Schema $_this = null) {
                 /** @var \MwbExporter\Configuration\Header $header */
                 $header = $this->getConfig(HeaderConfiguration::class);
                 if ($content = $header->getHeader()) {
@@ -67,7 +67,7 @@ class Schema extends BaseSchema
                 $this->getName(),
                 ($namespace = $this->getConfig(ModelNamespaceConfiguration::class)->getValue()) ? sprintf(' namespace="%s"', $namespace) : ''
             )
-            ->writeCallback(function(WriterInterface $writer, Schema $_this = null) {
+            ->writeCallback(function(WriterInterface $writer, ?Schema $_this = null) {
                 $_this->writeSchema($writer);
             })
             ->write('</database>')
